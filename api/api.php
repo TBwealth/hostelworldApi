@@ -29,13 +29,14 @@ if($requestMethod == "GET"){
 		$isDateValid = checkdate($datearray[1], $datearray[2], $datearray[0]);
 		// Check if date is valid
 		if(!$isDateValid){
-	// throw 400 if Date is invalid
-	$data = [
-		'status' => 400,
-		'message' => 'Invalid date ('.$date.'), please input date in this format: YYYY-MM-DD',
-	];
-	// set response header
-	header("HTTP/1.0 400 Bad request");
+		// throw 400 if Date is invalid
+		$data = [
+			'isSuccessful' => false,
+			'status' => 400,
+			'message' => 'Invalid date ('.$date.'), please input date in this format: YYYY-MM-DD',
+		];
+		// set response header
+	header("HTTP/1.0 400 Ok");
 	// return response
 	echo json_encode($data);
 			return;
@@ -47,6 +48,7 @@ if($requestMethod == "GET"){
 		if($datetotime > $searchtime){
 				// throw 400 if Date is past
 	$data = [
+		'isSuccessful' => false,
 		'status' => 400,
 		'message' => 'Past date ('.$date.') not allowed',
 	];
@@ -57,15 +59,23 @@ if($requestMethod == "GET"){
 			return;
 		}
 	};
+	//get data file path
+	$path = '../data/data.json';
+	// get json file content     
+	$jsonString = file_get_contents($path);
+	// decode file content to json 
+	$jsonData = json_decode($jsonString, true);
 
 // instatiate api controller
- $apiController = new ApiController($term,$date);
+ $apiController = new ApiController($term,$date,$jsonData);
  $eventList = $apiController->readEvent();
 
  // set reponse data
  $data = [
+	'isSuccessful' => true,
 	'status' => 200,
 	'message' => 'Events fetched successfully',
+	'count' => count($eventList),
 	'data' =>  $eventList
 ];
 
@@ -76,6 +86,7 @@ echo json_encode($data);
 }else{
 	// throw 405 if method is not GET
 	$data = [
+		'isSuccessful' => false,
 		'status' => 405,
 		'message' => $requestMethod. 'Method Not Allowed',
 	];

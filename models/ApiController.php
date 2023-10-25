@@ -13,13 +13,13 @@ private $path = '../data/data.json';
 // declare required vaiable
     public $term;
     public $date;
-  
+   public $jsonData;
     //initialize the class
-    public function __construct($term,$date)
+    public function __construct($term,$date,$jsonData)
     {
    $this->term = $term;
    $this->date = $date;
-
+   $this->jsonData = $jsonData;
     }
   /**
      * @OA\Get(
@@ -52,46 +52,38 @@ private $path = '../data/data.json';
      * )
      */
     public function readEvent(){   
-        // get json file content     
-        $jsonString = file_get_contents($this->path);
-        // decode file content to json 
-        $jsonData = json_decode($jsonString, true);
-        
+       
         // if term and date is passed
         if(!empty($this->term) && !empty($this->date)){
-            $filterArray = array_filter($jsonData, function ($event){
+            $filterArray = array_filter($this->jsonData, function ($event){
                 $searchtime = strtotime($this->date); 
                 $rangeStart = strtotime($event['startDate']); 
                 $rangeEnd = strtotime($event['endDate']);
                 return (((strtolower($event['city']) == strtolower($this->term)) || (strtolower($event['country']) == strtolower($this->term))) && 
-                ($searchtime <= $rangeEnd && $rangeStart >= $searchtime));
+                ($rangeStart <= $searchtime && $rangeEnd >= $searchtime));
             });
         return $filterArray;
         }
 
         // if only date is passed
         if(empty($this->term) && !empty($this->date)){
-            $newarray = array();
-            $searchtime = strtotime($this->date); 
-            foreach ($jsonData as $event){
-                $rangeStart = strtotime($event['startDate']); 
-                $rangeEnd = strtotime($event['endDate']);
-                
-                if (
-                    $searchtime <= $rangeEnd && 
-                    $rangeStart >= $searchtime)array_push($newarray,$event);
-            }
-        return $newarray;
+           $filterArray = array_filter($this->jsonData, function ($event){
+            $searchtime = strtotime($this->date);
+         $rangeStart = strtotime($event['startDate']); 
+         $rangeEnd = strtotime($event['endDate']);  
+            return ($rangeStart <= $searchtime && $rangeEnd >= $searchtime);
+        });
+    return $filterArray;
         }
 
         // if only term is passed
         if(!empty($this->term) && empty($this->date)){
-            $filterArray = array_filter($jsonData, function ($event){
+            $filterArray = array_filter($this->jsonData, function ($event){
                 return (strtolower($event['city']) == strtolower($this->term)) || (strtolower($event['country']) == strtolower($this->term));
             });
         return $filterArray;
         }
-     
+     return array();
     }
 }
 
