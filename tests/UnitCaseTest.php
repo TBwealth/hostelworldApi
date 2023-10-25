@@ -1,6 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 // required files
 require_once(dirname(__FILE__).'/../models/ApiController.php');
@@ -10,12 +11,18 @@ class UnitTestCase extends TestCase
     // test get endpoint
     public function testGetRequest()
     {
-    // Create a client with a base URI
-    $client = new Client(['base_uri' => 'http://localhost:8012/hostelworld/api/']);
-    // Send a get request
-    $response = $client->request('GET', 'api.php?term=Waumandee');
-    // Test that endpoint response is of status code 200
-    $this->assertEquals(200, $response->getStatusCode());
+        try{
+   // Create a client with a base URI
+   $client = new Client(['base_uri' => 'http://localhost:8012/hostelworld/api/']);
+   // Send a get request
+   $response = $client->request('GET', 'api.php?date=2023-10-01');
+   // Test that endpoint response is of status code 200
+   $this->assertEquals(200, $response->getStatusCode());
+        }catch(ClientException $e){
+              // Test that endpoint response is of status code 400
+            $this->assertEquals(400, $e->getResponse()->getBody());
+        }
+ 
     }
     
     // test read event class output

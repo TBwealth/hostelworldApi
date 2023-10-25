@@ -1,4 +1,5 @@
 <?php
+// set php error reporting level
 error_reporting(E_ALL);
 ini_set('display_error', 1);
 

@@ -1,1 +1,1 @@
-{"version":1,"defects":{"UnitTestCase::testGetRequest":4,"UnitTestCase::testReadEventFuction":4},"times":{"UnitTestCase::testGetRequest":0.045,"UnitTestCase::testReadEventFuction":0.001}}
+{"version":1,"defects":{"UnitTestCase::testGetRequest":4,"UnitTestCase::testReadEventFuction":4},"times":{"UnitTestCase::testGetRequest":0.047,"UnitTestCase::testReadEventFuction":0.002}}

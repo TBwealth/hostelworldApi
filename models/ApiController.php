@@ -1,4 +1,5 @@
 <?php
+// set php error reporting level
 error_reporting(E_ALL);
 ini_set('dispay_error',1);
 
@@ -35,7 +36,7 @@ private $path = '../data/data.json';
  *                  type="string"
 *                   )
      * ),
-     *   *     @OA\Parameter(
+     *        @OA\Parameter(
      *          name="date",
     *           in="query",
 *               required=false,
@@ -45,9 +46,58 @@ private $path = '../data/data.json';
 *                   )
      * ),
      *     @OA\Response(response="200", description="success, a list of events",
-     * @OA\Schema(
- *                  type="string"
-*                   )),
+     *    @OA\MediaType(
+ *         mediaType="application/json",
+ * @OA\Schema(
+  *   description="Action Plans",
+  *   title="Action Plan Schema",
+  *   required={
+  *     "id",
+  *     "name",
+  *     "city",
+  *     "country",
+  *     "startDate",
+  *     "endDate"
+  *   },
+  *    @OA\Property(
+  *      property="id",
+  *      type="string",
+  *      format="",
+  *      description="Action Plan ID"
+  *    ),
+    *    @OA\Property(
+  *      property="name",
+  *      type="string",
+  *      format="",
+  *      description="Action Plan ID"
+  *    ),
+    *    @OA\Property(
+  *      property="city",
+  *      type="string",
+  *      format="",
+  *      description="Action Plan ID"
+  *    ),
+    *    @OA\Property(
+  *      property="country",
+  *      type="string",
+  *      format="",
+  *      description="Action Plan ID"
+  *    ),
+    *    @OA\Property(
+  *      property="startDate",
+  *      type="string",
+  *      format="",
+  *      description="Action Plan ID"
+  *    ),
+    *    @OA\Property(
+  *      property="endDate",
+  *      type="string",
+  *      format="",
+  *      description="Action Plan ID"
+  *    )
+  * ),
+ *     ),
+     *        ),
      *     @OA\Response(response="400", description="bad request"),
      * )
      */
