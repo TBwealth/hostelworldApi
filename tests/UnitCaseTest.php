@@ -7,6 +7,7 @@ require_once(dirname(__FILE__).'/../models/ApiController.php');
 class UnitTestCase extends TestCase 
 {
 
+    // test get endpoint
     public function testGetRequest()
     {
     // Create a client with a base URI
@@ -16,7 +17,8 @@ class UnitTestCase extends TestCase
     // Test that endpoint response is of status code 200
     $this->assertEquals(200, $response->getStatusCode());
     }
-
+    
+    // test read event class output
     public function testReadEventFuction(){
         	//prepare sample data to test 
         $sampleData = array (
